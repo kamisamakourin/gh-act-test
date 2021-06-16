@@ -1,0 +1,26 @@
+name: Build and Vulnerability Check
+on:
+  pull_request:
+    branches-ignore:
+      - production
+      - development
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build an image from Dockerfile
+        run: |
+          docker build -t docker.io/kamisamakourin/vuln-check-gh-actions:${{ github.sha }} .
+
+      - name: Run Dockle vulnerability scanner
+        uses: hands-lab/dockle-action@v1
+        with:
+          image: 'docker.io/kamisamakourin/vuln-check-gh-actions:${{ github.sha }}'
+          exit-code: '1'
+          exit-level: WARN
