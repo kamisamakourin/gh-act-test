@@ -1,4 +1,4 @@
-name: Build and Vulnerability Check
+name: Build and trivy Vulnerability Check
 on:
   pull_request:
     branches-ignore:
@@ -22,11 +22,8 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'docker.io/kamisamakourin/vuln-check-gh-actions:${{ github.sha }}'
-          format: 'json'
-          output: 'trivy-scan-result.json'
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: 'scan result'
-          path: 'trivy-scan-result.json'
+          format: 'table'
+          exit-code: 1
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'

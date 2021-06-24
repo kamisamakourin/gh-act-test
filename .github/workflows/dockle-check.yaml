@@ -1,4 +1,4 @@
-name: Build and Vulnerability Check
+name: Build and Dockle Vulnerability Check
 on:
   pull_request:
     branches-ignore:
