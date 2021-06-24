@@ -23,4 +23,4 @@ jobs:
         with:
           image: 'docker.io/kamisamakourin/vuln-check-gh-actions:${{ github.sha }}'
           exit-code: '1'
-          exit-level: HIGH
+          exit-level: FATAL
